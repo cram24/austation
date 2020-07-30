@@ -61,17 +61,18 @@
 	if(!(end in list("!", ".", "?", ":", "\"", "-")))
 		msg += "."
 
-	user.log_message(msg, LOG_EMOTE)
+	var/admin_stealth = FALSE
+	if(user?.client?.holder?.fakekey)
+		admin_stealth = TRUE
+
+	if(!admin_stealth)
+		user.log_message(msg, LOG_EMOTE)
 
 	msg = "<b>[user]</b> " + msg
 
 	var/tmp_sound = get_sound(user)
 	if(tmp_sound && (!only_forced_audio || !intentional))
 		playsound(user, tmp_sound, 50, vary)
-
-	var/admin_stealth = FALSE
-	if(user?.client?.holder?.fakekey)
-		admin_stealth = TRUE
 
 	for(var/mob/M in GLOB.dead_mob_list)
 		if(!M.client || isnewplayer(M) || admin_stealth)
