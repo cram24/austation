@@ -37,8 +37,16 @@
 
 /obj/structure/table/Bumped(mob/living/carbon/human/H)
 	. = ..()
+<<<<<<< HEAD
 	if(!istype(H) || H.shoes || !(H.mobility_flags & MOBILITY_STAND))
 		return ..()
+=======
+	if(!istype(H))
+		return
+	var/feetCover = (H.wear_suit && (H.wear_suit.body_parts_covered & FEET)) || (H.w_uniform && (H.w_uniform.body_parts_covered & FEET))
+	if(H.shoes || feetCover || !(H.mobility_flags & MOBILITY_STAND) || HAS_TRAIT(H, TRAIT_PIERCEIMMUNE) || H.m_intent == MOVE_INTENT_WALK)
+		return
+>>>>>>> ce76d377f3... travis runtime (#2502)
 	if((world.time >= last_bump + 100) && prob(5))
 		last_bump = world.time
 		to_chat(H, "<span class='warning'>You stub your toe on the [name]!</span>")
